@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 
 @SpringBootApplication
 public class InventoryServiceApplication {
@@ -15,7 +16,8 @@ public class InventoryServiceApplication {
     }
 
     @Bean
-    CommandLineRunner start(ProductRepository productRepository){
+    CommandLineRunner start(ProductRepository productRepository, RepositoryRestConfiguration configuration){
+        configuration.exposeIdsFor(Product.class);
         return args -> {
             productRepository.save(new Product(null, "Laptop", 12000.0, 5));
             productRepository.save(new Product(null, "Phone", 1000.0, 15));
