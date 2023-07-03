@@ -26,7 +26,7 @@
             <td>{{p.name}}</td>
             <td>{{p.price}}</td>
             <td>{{p.quantity}}</td>
-            <td>
+            <td *ngIf="authService.hasRole('ADMIN')">
               <button (click)="deleteProduct(p)" class="btn btn-danger">
                 <i class="bi-trash"></i>
               </button>
@@ -34,6 +34,11 @@
           </tr>
         </tbody>
       </table>
+      <ul class="nav nav-pills">
+        <li *ngFor="let item of [].constructor(this.totalPage); let i = index">
+          <a (click)="goToPage(i)" [ngClass]="i==currentPage?'btn-dark' : 'btn-outline-dark'" class="btn ms-1 mt-1">{{i}}</a>
+        </li>
+      </ul>
     </div>
   </div>
 </div>

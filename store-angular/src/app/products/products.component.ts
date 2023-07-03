@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Product} from "../models/product";
 import {ProductsService} from "../services/products.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {AuthenticationService} from "../services/authentication.service";
 
 @Component({
   selector: 'app-products',
@@ -10,17 +11,32 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 })
 export class ProductsComponent implements OnInit {
   products! : Product[];
+  currentPage : number = 0;
+  pageSize : number = 5;
+  totalPage : number = 0;
   errorMessage! : string;
   searchFormGroup! : FormGroup;
-  constructor(public productsService : ProductsService, private fb : FormBuilder) { }
+  action : string = "all";
+  constructor(private productsService : ProductsService, private fb : FormBuilder, public authService : AuthenticationService) { }
 
   ngOnInit(): void {
     this.searchFormGroup = this.fb.group({
       keyword : this.fb.control(null),
     })
-    this.getAllProducts();
+    this.getPageProducts();
   }
 
+  public getPageProducts() {
+    this.productsService.getPageProducts(this.currentPage, this.pageSize).subscribe({
+      next: data => {
+        this.products = data.products;
+        this.totalPage = data.totalPages;
+      },
+      error : err => {
+        this.errorMessage = err;
+      }
+    });
+  }
   public getAllProducts() {
     this.productsService.getAllProducts().subscribe({
       next: data => {
@@ -45,11 +61,22 @@ export class ProductsComponent implements OnInit {
   }
 
   searchProduct() {
+    // this.currentPage = 0;
+    this.action = "search";
     let key = this.searchFormGroup.value.keyword;
-    this.productsService.searchProducts(key).subscribe({
+    this.productsService.searchProducts(key, this.currentPage, this.pageSize).subscribe({
       next : data => {
-        this.products = data;
+        this.products = data.products;
+        this.totalPage = data.totalPages;
       }
     })
+  }
+
+  goToPage(i: number) {
+    this.currentPage = i;
+    if(this.action === 'all')
+      this.getPageProducts();
+    else
+      this.searchProduct();
   }
 }
