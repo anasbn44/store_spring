@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {PageProduct, Product} from "../models/product";
-import {Observable, of} from "rxjs";
+import {Observable, of, throwError} from "rxjs";
 import {UUID} from "angular2-uuid";
 
 @Injectable({
@@ -43,5 +43,23 @@ export class ProductsService {
     let pageProduct  = result.slice(index, index + size);
 
     return of({page: page, size: size, totalPages: totalPages, products: pageProduct});
+  }
+
+
+  public addProduct(product : Product) : Observable<Product>{
+    product.id = UUID.UUID();
+    this.products.push(product);
+    return of(product);
+  }
+
+  public getProduct(id : string) : Observable<Product>{
+    let find = this.products.find(p => p.id == id);
+    if (find == undefined) return throwError(()=> new Error("product not found"));
+    return of(find);
+  }
+
+  public updateProduct(product : Product) : Observable<Product>{
+    this.products = this.products.map(p => (p.id == product.id)? product : p);
+    return of(product);
   }
 }

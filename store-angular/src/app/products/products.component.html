@@ -2,25 +2,29 @@
   <ng-template #errors>
     {{errorMessage}}
   </ng-template>
-  <div class="card" *ngIf="products; else errors">
-    <div class="card-header">Products List</div>
-    <div class="card-body">
-      <form [formGroup]="searchFormGroup" (ngSubmit)="searchProduct()">
-        <div class="input-group">
-          <label class="input-group-text">Keyword : </label>
-          <input type="text" class="form-control" formControlName="keyword">
-          <button class="btn btn-info">
-            <i class="bi bi-search"></i>
-          </button>
-        </div>
-      </form>
-      <table class="table">
-        <thead>
+  <div  *ngIf="products; else errors">
+    <nav class="p-2 m-2">
+      <button *ngIf="authService.hasRole('ADMIN')" class="btn btn-outline-info" (click)="newProduct()">New Product</button>
+    </nav>
+    <div class="card">
+      <div class="card-header">Products List</div>
+      <div class="card-body">
+        <form [formGroup]="searchFormGroup" (ngSubmit)="searchProduct()">
+          <div class="input-group">
+            <label class="input-group-text">Keyword : </label>
+            <input type="text" class="form-control" formControlName="keyword">
+            <button class="btn btn-info">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </form>
+        <table class="table">
+          <thead>
           <tr>
             <th>ID</th> <th>Name</th> <th>Price</th> <th>Quantity</th>
           </tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
           <tr *ngFor="let p of products">
             <td>{{p.id}}</td>
             <td>{{p.name}}</td>
@@ -31,14 +35,23 @@
                 <i class="bi-trash"></i>
               </button>
             </td>
+
+            <td *ngIf="authService.hasRole('ADMIN')">
+              <button (click)="editProduct(p.id)" class="btn btn-success">
+                <i class="bi bi-pencil-fill"></i>
+              </button>
+            </td>
+
           </tr>
-        </tbody>
-      </table>
-      <ul class="nav nav-pills">
-        <li *ngFor="let item of [].constructor(this.totalPage); let i = index">
-          <a (click)="goToPage(i)" [ngClass]="i==currentPage?'btn-dark' : 'btn-outline-dark'" class="btn ms-1 mt-1">{{i}}</a>
-        </li>
-      </ul>
+          </tbody>
+        </table>
+        <ul class="nav nav-pills">
+          <li *ngFor="let item of [].constructor(this.totalPage); let i = index">
+            <a (click)="goToPage(i)" [ngClass]="i==currentPage?'btn-dark' : 'btn-outline-dark'" class="btn ms-1 mt-1">{{i}}</a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
+
 </div>

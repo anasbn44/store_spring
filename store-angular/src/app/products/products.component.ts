@@ -3,6 +3,7 @@ import {Product} from "../models/product";
 import {ProductsService} from "../services/products.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {AuthenticationService} from "../services/authentication.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-products',
@@ -17,7 +18,8 @@ export class ProductsComponent implements OnInit {
   errorMessage! : string;
   searchFormGroup! : FormGroup;
   action : string = "all";
-  constructor(private productsService : ProductsService, private fb : FormBuilder, public authService : AuthenticationService) { }
+  constructor(private productsService : ProductsService, private fb : FormBuilder,
+              public authService : AuthenticationService, private router : Router) { }
 
   ngOnInit(): void {
     this.searchFormGroup = this.fb.group({
@@ -78,5 +80,13 @@ export class ProductsComponent implements OnInit {
       this.getPageProducts();
     else
       this.searchProduct();
+  }
+
+  newProduct() {
+    this.router.navigateByUrl("/admin/new-product");
+  }
+
+  editProduct(id: string) {
+    this.router.navigateByUrl("/admin/update-product/" + id);
   }
 }
