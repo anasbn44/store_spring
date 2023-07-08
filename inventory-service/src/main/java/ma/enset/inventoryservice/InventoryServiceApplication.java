@@ -19,9 +19,11 @@ public class InventoryServiceApplication {
     CommandLineRunner start(ProductRepository productRepository, RepositoryRestConfiguration configuration){
         configuration.exposeIdsFor(Product.class);
         return args -> {
-            productRepository.save(new Product(null, "Laptop", 12000.0, 5));
-            productRepository.save(new Product(null, "Phone", 1000.0, 15));
-            productRepository.save(new Product(null, "Printer", 200.0, 25));
+            for (int i = 0; i < 10; i++) {
+                productRepository.save(new Product(null, "Laptop", 12000.0, 5));
+                productRepository.save(new Product(null, "Phone", 1000.0, 15));
+                productRepository.save(new Product(null, "Printer", 200.0, 25));
+            }
         };
     }
 }

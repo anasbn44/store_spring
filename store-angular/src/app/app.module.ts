@@ -9,6 +9,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import { LoginComponent } from './login/login.component';
 import { AdminTemplateComponent } from './admin-template/admin-template.component';
 import {NewProductComponent, UpdateProductComponent} from './new-product/new-product.component';
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import {NewProductComponent, UpdateProductComponent} from './new-product/new-pro
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

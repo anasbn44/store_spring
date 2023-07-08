@@ -29,7 +29,7 @@ export class ProductsComponent implements OnInit {
   }
 
   public getPageProducts() {
-    this.productsService.getPageProducts(this.currentPage, this.pageSize).subscribe({
+    this.productsService.getAllProductsSpring(this.currentPage, this.pageSize).subscribe({
       next: data => {
         this.products = data.products;
         this.totalPage = data.totalPages;
