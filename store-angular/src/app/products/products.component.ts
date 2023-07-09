@@ -31,8 +31,9 @@ export class ProductsComponent implements OnInit {
   public getPageProducts() {
     this.productsService.getAllProductsSpring(this.currentPage, this.pageSize).subscribe({
       next: data => {
-        this.products = data.products;
-        this.totalPage = data.totalPages;
+        this.products = data._embedded.products;
+        this.totalPage = data.page.totalPages;
+        console.log(data.page.totalPages)
       },
       error : err => {
         this.errorMessage = err;
@@ -66,10 +67,11 @@ export class ProductsComponent implements OnInit {
     // this.currentPage = 0;
     this.action = "search";
     let key = this.searchFormGroup.value.keyword;
+    console.log(this.products);
     this.productsService.searchProducts(key, this.currentPage, this.pageSize).subscribe({
       next : data => {
-        this.products = data.products;
-        this.totalPage = data.totalPages;
+        this.products = data._embedded.products;
+        this.totalPage = data.page.totalPages;
       }
     })
   }

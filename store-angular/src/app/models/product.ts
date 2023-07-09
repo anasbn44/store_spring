@@ -12,3 +12,17 @@ export interface PageProduct{
   size : number,
   totalPages : number,
 }
+
+export interface PageProductRest{
+  _embedded : ProductList,
+  page : Page,
+}
+export interface ProductList{
+  products : Product[]
+}
+export interface Page{
+  size : number,
+  totalElements : number,
+  totalPages : number,
+  number : number,
+}
