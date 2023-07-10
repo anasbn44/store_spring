@@ -6,9 +6,10 @@ import {LoginComponent} from "./login/login.component";
 import {AdminTemplateComponent} from "./admin-template/admin-template.component";
 import {AuthenticationGuard} from "./guards/authentication.guard";
 import {NewProductComponent, UpdateProductComponent} from "./new-product/new-product.component";
+import {UserTemplateComponent} from "./user-template/user-template.component";
 
 const routes : Routes = [
-  {path : "", component : LoginComponent},
+  {path : "", component : UserTemplateComponent},
   {path : "login", component : LoginComponent},
   {path : "admin", component : AdminTemplateComponent, canActivate : [AuthenticationGuard],
     children : [

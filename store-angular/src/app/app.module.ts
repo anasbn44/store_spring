@@ -10,6 +10,7 @@ import { LoginComponent } from './login/login.component';
 import { AdminTemplateComponent } from './admin-template/admin-template.component';
 import {NewProductComponent, UpdateProductComponent} from './new-product/new-product.component';
 import {HttpClientModule} from "@angular/common/http";
+import { UserTemplateComponent } from './user-template/user-template.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import {HttpClientModule} from "@angular/common/http";
     AdminTemplateComponent,
     NewProductComponent,
     UpdateProductComponent,
+    UserTemplateComponent,
   ],
   imports: [
     BrowserModule,

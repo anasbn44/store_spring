@@ -12,7 +12,6 @@ export class ProductsService {
   productSpring! : Product[];
   constructor(private http : HttpClient) {
     this.products = [];
-
   }
 
   public getAllProducts() : Observable<Product[]>{
@@ -31,9 +30,10 @@ export class ProductsService {
     return of({page: page, size: size, totalPages: totalPages, products: pageProduct})
   }
 
-  public deleteProduct(id : string) : Observable<boolean>{
-    this.products = this.products.filter(p => p.id != id);
-    return of(true);
+  public deleteProduct(id : string) : Observable<any>{
+    // this.products = this.products.filter(p => p.id != id);
+    // return of(true);
+    return this.http.delete<any>(`http://localhost:1999/INVENTORY-SERVICE/products/${id}`)
   }
 
   public searchProducts (keyword : string, page : number, size : number) : Observable<PageProductRest>{
@@ -50,19 +50,22 @@ export class ProductsService {
 
 
   public addProduct(product : Product) : Observable<Product>{
-    product.id = UUID.UUID();
-    this.products.push(product);
-    return of(product);
+    // product.id = UUID.UUID();
+    // this.products.push(product);
+    // return of(product);
+    return this.http.post<Product>(`http://localhost:1999/INVENTORY-SERVICE/products`, product);
   }
 
   public getProduct(id : string) : Observable<Product>{
-    let find = this.products.find(p => p.id == id);
-    if (find == undefined) return throwError(()=> new Error("product not found"));
-    return of(find);
+    // let find = this.products.find(p => p.id == id);
+    // if (find == undefined) return throwError(()=> new Error("product not found"));
+    // return of(find);
+    return this.http.get<Product>(`http://localhost:1999/INVENTORY-SERVICE/products/${id}`);
   }
 
   public updateProduct(product : Product) : Observable<Product>{
-    this.products = this.products.map(p => (p.id == product.id)? product : p);
-    return of(product);
+    // this.products = this.products.map(p => (p.id == product.id)? product : p);
+    // return of(product);
+    return this.http.put<Product>(`http://localhost:1999/INVENTORY-SERVICE/products/${product.id}`, product);
   }
 }
